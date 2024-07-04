@@ -29,13 +29,21 @@ const courseSchema = new mongoose.Schema({
 
 // pascal case Course to name our classes
 const Course = mongoose.model('Course', courseSchema);
-// camel case course to name our objects
-const course = new Course({
-    name: 'Node.js Course',
-    author: "hasan",
-    tags: ['node', 'backend'],
-    isPublished: true
-});
+
+async function createCourse() {
+    // camel case course to name our objects
+    const course = new Course({
+        name: 'django Course',
+        author: "hasan",
+        tags: ['python', 'backend'],
+        isPublished: true
+    });
+    
+    const result = await course.save();
+    console.log(result);
+
+}
+createCourse();
 
 
 app.post('/', async (req, res) => {
