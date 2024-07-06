@@ -63,9 +63,19 @@ async function getCourses(){
         // .find({ author: 'hasan', isPublished: true})
         // .find({ price: { $gt: 10, $lte: 20 } })
         // .find({ price: { $in: [10, 15, 20] }})
-        .find()
-        .or([{ author: 'hasan'}, { isPublished: true }])
-        .and([{ author: 'hasan', isPublished: true }])
+        // .find()
+        // .or([{ author: 'hasan'}, { isPublished: true }])
+        // .and([{ author: 'hasan', isPublished: true }])
+
+        // Starts with Mehedi 
+        .find({ author: /^mehedi/ })
+
+        // Ends with Nasim
+        .find({ author: /nasim$/i })
+
+        // Contain hasan
+        .find({ author: /.*hasan.*/i })
+
         .limit(10)
         .sort({ name: 1 })
         .select({ name: 1, tags: 1});
