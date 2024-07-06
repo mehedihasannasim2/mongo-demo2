@@ -47,39 +47,14 @@ async function createCourse() {
 
 
 async function getCourses(){
-    // Comparison Operator
-    // eq (equal)
-    // ne (not Equal)
-    // gt (greater than)
-    // gte (greater than or equal to)
-    // lt (less than)
-    // lte (less than or equal to)
-    // in 
-    // nin (not in)
-
-    // or
-    // and
+    const pageNumber = 2;
+    const pageSize = 10;
     const courses = await Course
         .find({ author: 'hasan', isPublished: true})
-        // .find({ price: { $gt: 10, $lte: 20 } })
-        // .find({ price: { $in: [10, 15, 20] }})
-        // .find()
-        // .or([{ author: 'hasan'}, { isPublished: true }])
-        // .and([{ author: 'hasan', isPublished: true }])
-
-        // // Starts with Mehedi 
-        // .find({ author: /^mehedi/ })
-
-        // // Ends with Nasim
-        // .find({ author: /nasim$/i })
-
-        // // Contain hasan
-        // .find({ author: /.*hasan.*/i })
-
-        .limit(10)
+        .skip((pageNumber- 1) * pageSize)
+        .limit(pageSize)
         .sort({ name: 1 })
-        .count();
-        // .select({ name: 1, tags: 1});
+        .select({ name: 1, tags: 1});
     console.log(courses);
 }
 
