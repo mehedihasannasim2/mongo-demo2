@@ -46,26 +46,18 @@ async function createCourse() {
 // createCourse();
 
 
-// Approach: Query first
-// findByI()
-// modify its properties
-// save()
-
+// Approach: Update first
+// Update directly
+// Optionally: get the update document
 async function updateCourse(id) {
     
-    const course = await  Course.findById(id);
-    if (!course) return;
-
-    course.isPublished = true;
-    course.author = 'Another Nasim';
-
-    const result = await course.save();
-    console.log(result);
-
-    // course.set({
-    //     isPublished: true, 
-    //     author: 'Another Author'
-    // });
+    const course = await  Course.findByIdAndUpdate(id, {
+        $set: {
+            author: 'mehedi',
+            isPublished: false
+        }
+    }, { new: true });
+    console.log(course);
 }
 
 updateCourse('66868854aa5b5ef408b46ca1');
