@@ -46,6 +46,31 @@ async function createCourse() {
 // createCourse();
 
 
+// Approach: Query first
+// findByI()
+// modify its properties
+// save()
+
+async function updateCourse(id) {
+    
+    const course = await  Course.findById(id);
+    if (!course) return;
+
+    course.isPublished = true;
+    course.author = 'Another Nasim';
+
+    const result = await course.save();
+    console.log(result);
+
+    // course.set({
+    //     isPublished: true, 
+    //     author: 'Another Author'
+    // });
+}
+
+updateCourse('66868854aa5b5ef408b46ca1');
+
+
 async function getCourses(){
     const pageNumber = 2;
     const pageSize = 10;
@@ -58,7 +83,7 @@ async function getCourses(){
     console.log(courses);
 }
 
-getCourses();
+// getCourses();
 
 
 app.post('/', async (req, res) => {
