@@ -1,7 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
 
-
 const app = express()
 const port = 3000;
 app.use(express.json())
@@ -23,7 +22,6 @@ const courseSchema = new mongoose.Schema({
     date: { type: Date, default: Date.now },
     isPublished: Boolean
 });
-
 // const userModel = mongoose.model('User', userSchema);
 
 
@@ -66,11 +64,8 @@ async function removeCourse(id) {
     // const course = await Course.findOneAndRemove(id)
     console.log(result);
 }
-
 removeCourse('66868854aa5b5ef408b46ca1');
 // updateCourse('66868854aa5b5ef408b46ca1');
-
-
 
 
 async function getCourses(){
@@ -84,7 +79,6 @@ async function getCourses(){
         .select({ name: 1, tags: 1});
     console.log(courses);
 }
-
 // getCourses();
 
 
