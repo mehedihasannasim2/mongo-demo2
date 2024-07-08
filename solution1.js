@@ -28,11 +28,18 @@ const courseSchema = new mongoose.Schema({
     tags: {
         type: Array,
         validate: {
+            // isAsync: true,
             validator: function(v) {
-                return v && v.length > 0;
+                return new Promise((callbacks) => {
+                    setTimeout(() => {
+                        const result = v && v.length > 0;
+                        callbacks(result);
+                    }, 4000);
+
+                });
             },
             message: 'A course should have at least one tag.'
-        }
+        },
     }, 
     date: { type: Date, default: Date.now},
     isPublished: Boolean,
@@ -40,7 +47,7 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: function() { return this.isPublished; },
         min: 10,
-        max: 200
+        max: 20000
     }
 });
 
@@ -51,7 +58,7 @@ async function createCourse() {
         name: 'django Course',
         category: 'web',
         author: "jupitar",
-        tags: ['angular', 'frontend'],
+        tags: ['backend'],
         isPublished: true,
         price: 1500
     });
