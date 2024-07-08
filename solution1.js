@@ -13,16 +13,50 @@ import mongoose from 'mongoose';
 mongoose.connect('mongodb://localhost:27017/mongo-exercises');
 
 const courseSchema = new mongoose.Schema({
-    name: String,
+    name: {
+        type: String,
+        required: true,
+        minlength: 5, 
+        maxlength: 255,
+    },
+    category: {
+        type: String,
+        required: true,
+        enum: ['web', 'mobile', 'network']
+    },
     author: String,
     tags: [ String ], 
     date: Date,
     isPublished: Boolean,
-    price: Number
+    price: {
+        type: Number,
+        required: function() { return this.isPublished; },
+        min: 10,
+        max: 200
+    }
 });
 
 const Course = mongoose.model('Course', courseSchema)
 
+async function createCourse() {
+    const course = new Course({
+        name: 'django Course',
+        category: '-',
+        author: "jupitar",
+        tags: ['angular', 'frontend'],
+        isPublished: true,
+        price: 1500
+    });
+    
+    try {
+        const result = await course.save();
+        console.log(result);
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
+}
+createCourse();
 
 async function getCourses() {
     return await Course
