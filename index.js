@@ -9,63 +9,35 @@ app.get('/', (req, res) => {
     res.send('hello world')
 })
 
-// const userSchema = new mongoose.Schema({
-    // username: String,
-    // roll: Number,
-    // isSmart: Boolean
+
 
 const courseSchema = new mongoose.Schema({
-
-    name: String,
+    name: { type: String, required: true },
     author: String,
     tags: [ String ],
     date: { type: Date, default: Date.now },
     isPublished: Boolean
 });
-// const userModel = mongoose.model('User', userSchema);
 
-
-// pascal case Course to name our classes
 const Course = mongoose.model('Course', courseSchema);
 
 async function createCourse() {
-    // camel case course to name our objects
     const course = new Course({
-        name: 'django Course',
-        author: "hasan",
-        tags: ['python', 'backend'],
+        // name: 'django Course',
+        author: "jupitar",
+        tags: ['angular', 'frontend'],
         isPublished: true
     });
     
-    const result = await course.save();
-    console.log(result);
-
+    try {
+        const result = await course.save();
+        console.log(result);
+    }
+    catch (ex) {
+        console.log(ex.message);
+    }
 }
-// createCourse();
-
-
-// Approach: Update first
-// Update directly
-// Optionally: get the update document
-async function updateCourse(id) {
-    
-    const course = await  Course.findByIdAndUpdate(id, {
-        $set: {
-            author: 'mehedi',
-            isPublished: false
-        }
-    }, { new: true });
-    console.log(course);
-}
-
-async function removeCourse(id) {
-    
-    const result = await Course.deleteOne({ _id: id});
-    // const course = await Course.findOneAndRemove(id)
-    console.log(result);
-}
-removeCourse('66868854aa5b5ef408b46ca1');
-// updateCourse('66868854aa5b5ef408b46ca1');
+createCourse();
 
 
 async function getCourses(){
@@ -82,11 +54,35 @@ async function getCourses(){
 // getCourses();
 
 
-app.post('/', async (req, res) => {
-    const receiveData = req.body;
-    const createData = await userModel.create(receiveData);
-    res.json(createData)
-})
+async function updateCourse(id) {
+    
+    const course = await  Course.findByIdAndUpdate(id, {
+        $set: {
+            author: 'mehedi',
+            isPublished: false
+        }
+    }, { new: true });
+    console.log(course);
+}
+// updateCourse('66868854aa5b5ef408b46ca1');
+
+
+async function removeCourse(id) {
+    
+    const result = await Course.deleteOne({ _id: id});
+    // const course = await Course.findOneAndRemove(id)
+    console.log(result);
+}
+// removeCourse('66868854aa5b5ef408b46ca1');
+
+
+
+// app.post('/', async (req, res) => {
+//     const receiveData = req.body;
+//     const createData = await userModel.create(receiveData);
+//     res.json(createData)
+// })
+
 
 const startServer = async () => {
     await mongoose.connect("mongodb://localhost:27017/playground");
