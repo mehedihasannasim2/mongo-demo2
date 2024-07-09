@@ -56,9 +56,9 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'django Course',
-        category: 'web',
+        category: '-',
         author: "jupitar",
-        tags: ['backend'],
+        tags: null,
         isPublished: true,
         price: 1500
     });
@@ -68,7 +68,9 @@ async function createCourse() {
         console.log(result);
     }
     catch (ex) {
-        console.log(ex.message);
+        for (let field in ex.errors){
+            console.log(ex.errors[field].message);
+        }
     }
 }
 createCourse();
