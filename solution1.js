@@ -18,11 +18,15 @@ const courseSchema = new mongoose.Schema({
         required: true,
         minlength: 5, 
         maxlength: 255,
+
     },
     category: {
         type: String,
         required: true,
-        enum: ['web', 'mobile', 'network']
+        enum: ['web', 'mobile', 'network'],
+        lowercase: true,
+        // uppercase: true,
+        trim: true
     },
     author: String,
     tags: {
@@ -47,7 +51,9 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: function() { return this.isPublished; },
         min: 10,
-        max: 20000
+        max: 20000,
+        get: v => Math.round(v),
+        set: v => Math.round(v)
     }
 });
 
@@ -56,11 +62,11 @@ const Course = mongoose.model('Course', courseSchema)
 async function createCourse() {
     const course = new Course({
         name: 'django Course',
-        category: '-',
+        category: 'Web',
         author: "jupitar",
-        tags: null,
+        tags: ['backend'],
         isPublished: true,
-        price: 1500
+        price: 1500.89
     });
     
     try {
@@ -73,17 +79,21 @@ async function createCourse() {
         }
     }
 }
-createCourse();
+// createCourse();
 
 async function getCourses() {
-    return await Course
-        .find({ isPublished: true, tags: 'backend'})
-        .sort({ name: 1})
-        .select({ name: 1, author: 1 })
-        // .select('name author')
-    
-}
+    const pageNumber = 2;
+    const pageSize = 10;
 
+    const courses = await Course
+        // .find({ isPublished: true, tags: 'backend'})
+        .find({ _id: '668cd3e3613681b0457b7ce6'})
+        .sort({ name: 1})
+        .select({ name: 1, author: 1, price: 1 })
+        // .select('name author')
+    console.log(courses[0].price);
+}
+getCourses();
 // for printing the data in terminal
 async function run () {
     const courses = await getCourses();
